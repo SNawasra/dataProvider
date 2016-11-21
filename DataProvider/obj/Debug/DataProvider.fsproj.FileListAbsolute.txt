@@ -1,0 +1,15 @@
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\obj\Debug\DataProvider.fsproj.DataProvider.exe.config
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\DataProvider.exe.config
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\DataProvider.XML
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\DataProvider.exe
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\DataProvider.pdb
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\Chessie.dll
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\FSharp.Core.dll
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\FSharp.Data.dll
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\Chessie.pdb
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\Chessie.xml
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\FSharp.Data.pdb
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\FSharp.Data.xml
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\bin\Debug\FSharp.Core.xml
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\obj\Debug\DataProvider.exe
+c:\users\codepros\documents\visual studio 2015\Projects\DataProvider\DataProvider\obj\Debug\DataProvider.pdb
