@@ -1,10 +1,10 @@
-Batch,Date,AccountNumber,JE Reference, Distribution Reference
-TestBatch123454342, 01/02/2016, 123-232-1234,foo bar baz99999999999999999999999999999999999999, dist ref
-TestBatch, 01/02/2016, 123-232-1234,foo bar baz,
-TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref
-TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref
-TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref
-TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref
-TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref
-TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref
-TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref 
+Batch,Date,AccountNumber,JE Reference, Distribution Reference, DIVISION AA CODE, PROFIT CENTER AA CODE, PROJECT, DEAL, Amount
+TestBatch123454342, 01/02/2016, 123-232-1234,foo bar baz99999999999999999999999999999999999999, dist ref, d, d, d, d, 10
+TestBatch, 01/02/2016, 123-232-1234,foo bar baz, , d, d, d, d, 10.0
+TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref, d, d, d, d, 10.0
+TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref, d, d, d, d, 10.0
+TestBatch2, 01/03/2016, 123-232-1235,foo1 bar baz, dist1 ref, d, d, d, d, 10.0
+TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref, d, d, d, d, 10.0
+TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref, d, d, d, d, 10.0
+TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref, d, d, d, d, 10.0
+TestBatch3, 01/04/2016, 123-232-1233,foo2 bar baz, dist2 ref, d, d, d, d, 10.0

@@ -55,6 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Econnect.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
@@ -66,6 +67,12 @@
     <Reference Include="FSharp.Data">
       <HintPath>..\packages\FSharp.Data.2.3.2\lib\net40\FSharp.Data.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Dynamics.GP.eConnect">
+      <HintPath>..\..\..\Econnect 12.0\Econnect 12.0\Microsoft.Dynamics.GP.eConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamics.GP.eConnect.Serialization">
+      <HintPath>..\..\..\Econnect 12.0\Econnect 12.0\Microsoft.Dynamics.GP.eConnect.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
