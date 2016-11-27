@@ -30,3 +30,18 @@ C:\Users\CodePros\Downloads\dataProvider-master\dataProvider-master\DataProvider
 C:\Users\CodePros\Downloads\dataProvider-master\dataProvider-master\DataProvider\obj\Debug\DataProvider.pdb
 C:\Users\CodePros\Downloads\dataProvider-master\dataProvider-master\DataProvider\bin\Debug\Microsoft.Dynamics.GP.eConnect.dll
 C:\Users\CodePros\Downloads\dataProvider-master\dataProvider-master\DataProvider\bin\Debug\Microsoft.Dynamics.GP.eConnect.Serialization.dll
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\DataProvider.exe.config
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\DataProvider.XML
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\DataProvider.exe
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\DataProvider.pdb
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\Chessie.dll
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\FSharp.Core.dll
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\FSharp.Data.dll
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\Chessie.pdb
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\Chessie.xml
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\FSharp.Data.pdb
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\FSharp.Data.xml
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\bin\Debug\FSharp.Core.xml
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\obj\Debug\DataProvider.fsproj.DataProvider.exe.config
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\obj\Debug\DataProvider.exe
+C:\Users\CodePros\Documents\Visual Studio 2015\Projects\dProject\DataProvider\obj\Debug\DataProvider.pdb
