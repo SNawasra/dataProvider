@@ -12,6 +12,7 @@ open System.Xml;
 open System.Xml.Serialization;
 open System.Text;
 
+// string length validation
 let checkLength len (str:string) = 
     if(str.Length > len ) then 
         let s = String.Format("exeeded max length {0}", len)
@@ -19,6 +20,7 @@ let checkLength len (str:string) =
     else 
         pass <| str
 
+// partial function for length alidation
 let ValidateStringLength (len:int) =  checkLength len
 
 // open the csv file 
@@ -34,12 +36,15 @@ let unsafeInput =
     csv.Rows
     |> Seq.map(fun x -> {Batch=x.Batch; Date=x.Date;AccountNumber=x.AccountNumber;``JE Reference``=x.``JE Reference``;``Discribution Reference``=x.``Distribution Reference``;``DIVISION AA CODE``=x.``DIVISION AA CODE``; ``PROFIT CENTER AA CODE``=x.``PROFIT CENTER AA CODE``; Project= x.PROJECT; Deal=x.DEAL;Amount=x.Amount} )
 
+// get all JERef to distinct them
 let seqJERef = unsafeInput |>Seq.map(fun x-> x.``JE Reference``)
 let JERefdist = Seq.toList (Seq.distinct seqJERef)
 
+// validate JERef
 let validateDiscripRef = stringEmptyNullFail >> bind (ValidateStringLength 30)
 let DiscRefValidation (inp) = validateDiscripRef inp
 
+// valid JERef
 let valdRef = JERefdist |> List.map(fun item -> DiscRefValidation (item)) 
 //let valdRef' = valdRef |> Seq.filter(fun item -> isSuccess item )
 
@@ -52,22 +57,20 @@ let  validInput xs =
         | _ -> acc) [] xs
 
 
-let valdRef' = 
-    valdRef|> 
-    List.ofSeq|>
-    validInput
+// filter the JERef
+let valdRef' = valdRef|> List.ofSeq|> validInput
 
-
+// group the input schema by valid JERef
 let groups = List<List<InpSchema>>()
 for JEREF in valdRef' do
     let tt = new List<InpSchema>()
     unsafeInput |> Seq.iter(fun item -> if(JEREF = item.``JE Reference``) then tt.Add(item))
     groups.Add(tt)
 
+// input validation
 let validateBatch  =  stringEmptyNullWarn >> bind (ValidateStringLength 15)
 let BatchValidaton (inp:InpSchema) = validateBatch inp.Batch
 let validateAccountNumber str = lift Some ((ValidateStringLength 11 str))
-
 
 let inputValidation (x:InpSchema) =
     trial {
@@ -80,91 +83,35 @@ let inputValidation (x:InpSchema) =
         return {BatchNumber=x.Batch;SourceDocument= option.None;``Discribution Reference``=x.``Discribution Reference`` ;AccountNumber= x.AccountNumber;JERef=x.``Discribution Reference``;Date=x.Date;``DIVISION AA CODE``=x.``DIVISION AA CODE``;``PROFIT CENTER AA CODE``=x.``PROFIT CENTER AA CODE``; Project=x.Project; Deal=x.Deal; Amount=x.Amount}  
     }
 
-let validation (order: List<InpSchema>) = 
+// insert valid input 
+let InsertValidInput (order: List<InpSchema>) = 
     let seqOrder = order |>List.ofSeq
     let validOrder = seqOrder |> Seq.map(fun x -> inputValidation x )
     let validOrder' = List<Sample'>(validOrder|> List.ofSeq|>validInput)
     let connectionString = "temp"
-    let jeEntry = DocumentBuilder connectionString
-    //let header = SetTransactionHeader jeEntry validOrder'.[0]
-    let temp = InsertTransaction validOrder' jeEntry connectionString
+
+    let mutable success = 0m
+    let mutable failure = 0m 
+    let mutable sucFail = {success=0m;failure=0m;error=0m}
+
+    if(validOrder'.Count = Seq.length(validOrder)) then 
+       let jeEntry = DocumentBuilder connectionString
+       sucFail <- (InsertTransaction validOrder' jeEntry connectionString)
+       ignore()
+    else 
+       ignore()
+
+    sucFail
     //let lines = SetTransactionLine jeEntry validOrder'
-    order
 
-//let valSring15 = lift Some (ValidateStringLength 11)
-// Rules to apply on the data that we read from the csv file
-//let validateBatch  =  stringEmptyNullWarn >> bind (ValidateStringLength 15)
-//let BatchValidaton (inp:InpSchema) = validateBatch inp.Batch
-//let validateAccountNumber str = lift Some ((ValidateStringLength 11 str))
-//let validateDiscripRef = stringEmptyNullFail >> bind (ValidateStringLength 30)
-//let DiscRefValidation (inp:InpSchema) = validateDiscripRef inp.``Discribution Reference``
+let mutable success = 0m 
+let mutable failure = 0m
+let mutable error = 0m
 
-// error handlers
-
+for order in groups do 
+    let errorLog = InsertValidInput order
+    success <- errorLog.success
+    failure <- errorLog.failure
+    error <- errorLog.error
+    //ignore() 
     
-// apply the error handlers on the unsafe data to get safe data
-let safeInput =
-    unsafeInput 
-    |> Seq.map(fun x -> inputValidation x )
-
-
-
-let safeInput'' = 
-    safeInput|> 
-    List.ofSeq|>
-    validInput
-
-//type Sample' = {BatchNumber:string;SourceDocument:string option; ``Discribution Reference``:string;AccountNumber:string;JERef:string; Date:DateTime; ``DIVISION AA CODE``:string;``PROFIT CENTER AA CODE``:string; Project:string; Deal:string; Amount:decimal}
-
-
-
-// 
-//type MyCsvType = CsvProvider<
-//                Sample="BatchNumber, SourceDocument, JERef", 
-//                Schema = "BatchNumber (string), SourceDocument (string), JERef (string)", 
-//                HasHeaders = true>
-//
-//// add result on csv row 
-//let mapToCsvType x =
-//    MyCsvType.Row(string x.BatchNumber, string x.JERef,"")
-//
-////let  mapToCsvList xs  =
-////       printfn "got to start "
-////       let rec loop xs acum=
-////           match xs with 
-////           | h::t -> 
-////               printfn "this is the HEAD:  %A \r\n " h
-////               printfn "this is the Tail:  %A \r\n " t 
-////               match h with 
-////               |Pass z ->                                        
-////                   loop t ((mapToCsvType z)::acum)  
-////               | _ -> loop t acum                
-////           | [] ->                
-////               acum
-////       loop xs []                  
-//
-//
-//// add all safe data to csv provider
-//let  mapToCsvList xs = 
-//    List.fold (fun acc elem -> 
-//        match elem with 
-//        | Pass z ->  
-//            printfn("%A") elem
-//            mapToCsvType(z)::acc
-//        | _ -> acc) [] xs
-//
-//// all safed data 
-//let myRows = 
-//    safeInput|> 
-//    List.ofSeq|>
-//    mapToCsvList
-//
-//let myCsv = new MyCsvType(myRows)
-//let csvStrig = myCsv.SaveToString()
-//
-//Console.WriteLine(csvStrig)
-//
-//// write the results on the created csv file
-//let wr = new System.IO.StreamWriter("Csv.csv")
-//wr.Write csvStrig
-//wr.Close()

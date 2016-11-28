@@ -210,6 +210,7 @@
         UserId:String15 option; AdjustmentTransaction:AdjTrx option; NoteText:String8k option}
 
     type setLineRes = {linesTr:List<taGLTransactionLineInsert_ItemsTaGLTransactionLineInsert>;aaItemsTr:List<taAnalyticsDistribution_ItemsTaAnalyticsDistribution>}
+    
     //
     let DocumentBuilder connectionString = 
         let docNumbers = new GetNextDocNumbers()
@@ -355,11 +356,14 @@
         with 
             _ -> false
 
+    type sucessFailureErr = {success:decimal;failure:decimal;error:decimal}
+
     let eConnectEntry (connectionString:string)(fileName:string)=
         let message = false
         let eConnect = new eConnectMethods()
         let myXmlDoc = new XmlDocument()
         //let eConnectProcessInfoOutgoing
+        let mutable errorLog = {success=0m;failure=0m;error=0m}
 
         try
             try 
@@ -367,12 +371,14 @@
                 let eConnectProcessInfoOutgoing = myXmlDoc.SelectSingleNode("//Outgoing");
                 eConnect.CreateTransactionEntity(connectionString, myXmlDoc.OuterXml);
                 message = true;
+                errorLog.failure = errorLog.failure + 1m
 
             with
                 _ -> message = false 
 
         finally 
             eConnect.Dispose()
+
 
     let InsertTransaction (rows:List<Sample'>) jeEntry connectionString  = 
         let eConnect = new eConnectType()
@@ -396,12 +402,22 @@
     
         glArray.Add(glType)
         eConnect.GLTransactionType <- glArray.ToArray();
+
+        let mutable success = 0m
+        let mutable failure = 0m 
+        let mutable error = 0m 
+
+
         if (XMLSerialize "JE.xml" eConnect) then 
             if (eConnectEntry connectionString "JE.xml") then 
-                ignore()//success++
-            else 
+                success <- success + 1m //success++
                 ignore()//failure++           
-        rows
+
+            else 
+                failure <- failure + 1m
+                ignore()//failure++     
+                      
+        {success=success; failure=failure;error=0m}
 
 //    
 //    let SetTransactionHeader conString = 
