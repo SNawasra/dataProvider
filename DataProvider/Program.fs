@@ -61,11 +61,31 @@ let  validInput xs =
 let valdRef' = valdRef|> List.ofSeq|> validInput
 
 // group the input schema by valid JERef
-let groups = List<List<InpSchema>>()
+
+let groups =  List<List<InpSchema>>()
 for JEREF in valdRef' do
     let tt = new List<InpSchema>()
     unsafeInput |> Seq.iter(fun item -> if(JEREF = item.``JE Reference``) then tt.Add(item))
     groups.Add(tt)
+(*
+this is a more functional way and to be honest I would just return a Seq like option 2
+or make the unsafeInput a list and just use lists.
+let groups' =  
+    unsafeInput|> 
+    Seq.filter(fun x -> List.contains  x.``JE Reference`` valdRef')|>  //filter out none valid refs
+    Seq.toList|>
+    List.groupBy(fun x-> x.``JE Reference``)|>
+    Seq.toList
+
+
+option2
+let groups' =  
+    unsafeInput|> 
+    Seq.filter(fun x -> List.contains  x.``JE Reference`` valdRef')|>  //filter out none valid refs    
+    List.groupBy(fun x-> x.``JE Reference``)|>    
+
+       *)
+
 
 // input validation
 let validateBatch  =  stringEmptyNullWarn >> bind (ValidateStringLength 15)
@@ -74,10 +94,12 @@ let validateAccountNumber str = lift Some ((ValidateStringLength 11 str))
 
 let inputValidation (x:InpSchema) =
     trial {
+        
         let! listRes =
             //[BatchValidaton; DiscRefValidation]
+      
             [BatchValidaton]
-            |>List.map(fun f -> f x)
+            |>  List.map(fun f -> f x)
             |>collect
 
         return {BatchNumber=x.Batch;SourceDocument= option.None;``Discribution Reference``=x.``Discribution Reference`` ;AccountNumber= x.AccountNumber;JERef=x.``Discribution Reference``;Date=x.Date;``DIVISION AA CODE``=x.``DIVISION AA CODE``;``PROFIT CENTER AA CODE``=x.``PROFIT CENTER AA CODE``; Project=x.Project; Deal=x.Deal; Amount=x.Amount}  
@@ -104,10 +126,29 @@ let InsertValidInput (order: List<InpSchema>) =
     sucFail
     //let lines = SetTransactionLine jeEntry validOrder'
 
+let InsertValidInput' (order: List<InpSchema>) =     
+    let validOrder = order |> Seq.map(fun x -> inputValidation x )|> List.ofSeq |> validInput    
+    let connectionString = "temp"
+
+    let mutable success = 0m
+    let mutable failure = 0m 
+    let mutable sucFail = {success=0m;failure=0m;error=0m}
+
+    if( List.length validOrder = Seq.length(validOrder)) then 
+       let jeEntry = DocumentBuilder connectionString
+       (*I would convert this to use F# lists or a Seq*)      
+       sucFail <- (InsertTransaction (List<Sample'>(validOrder)) jeEntry connectionString)
+       ignore()
+    else 
+       ignore()
+
+    sucFail
+
+
 let mutable success = 0m 
 let mutable failure = 0m
 let mutable error = 0m
-
+(*this is ok but I would use a Fold*)
 for order in groups do 
     let errorLog = InsertValidInput order
     success <- errorLog.success

@@ -389,6 +389,7 @@
         procInfo.ProcTimeOut <- "10000";
         glType.eConnectProcessInfo <- procInfo;
 
+
 //        let connectionString = "connectionString"
 //        let JeEntry = DocumentBuilder connectionString
         let temp = SetTransactionLine jeEntry rows
